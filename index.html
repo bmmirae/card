@@ -153,6 +153,18 @@
   }
   .contact-row .label{ color:var(--slate); }
   .contact-row .value{ color:var(--ink); font-weight:500; }
+  .contact-row.stacked{
+    display:block;
+  }
+  .contact-row.stacked .label{
+    display:block;
+    margin-bottom:2px;
+  }
+  .contact-row.stacked .value{
+    display:block;
+    text-align:left;
+    line-height:1.5;
+  }
 
   .qr-section{
     display:flex;
@@ -231,9 +243,17 @@
 
   <div class="section">
     <h2>연락처</h2>
-    <div class="contact-row"><span class="label">전화</span><span class="value" id="phoneText">-</span></div>
+    <div class="contact-row"><span class="label">모바일</span><span class="value" id="phoneText">-</span></div>
+    <div class="contact-row"><span class="label">직통번호</span><span class="value" id="directPhoneText">-</span></div>
     <div class="contact-row"><span class="label">이메일</span><span class="value" id="emailText">-</span></div>
     <div class="contact-row"><span class="label">소속</span><span class="value" id="orgText">-</span></div>
+  </div>
+
+  <div class="section">
+    <h2>회사</h2>
+    <div class="contact-row stacked"><span class="label">서울</span><span class="value">서울특별시 금천구 가산디지털2로 144 현대테라타워 13층</span></div>
+    <div class="contact-row stacked"><span class="label">부산</span><span class="value">부산광역시 연제구 중앙대로 1217 국제타워 15층</span></div>
+    <div class="contact-row"><span class="label">홈페이지</span><span class="value"><a href="https://www.toup.net" target="_blank" style="color:var(--ink);">www.toup.net</a></span></div>
   </div>
 
   <div class="qr-section">
@@ -265,6 +285,7 @@
     직함: "본부장",
     전화: "010-9633-9496",
     모바일: "010-9633-9496",
+    직통번호: "02-2633-9015",
     이메일: "splendid@toup.net",
     소개문구: "BM3본부를 총괄하며 광고주 사업 전략과 팀 운영을 담당하고 있습니다.",
     태그: "네이버 검색광고, 쇼핑광고 운영, BM3본부 총괄",
@@ -287,7 +308,9 @@
       `ORG:미래아이엔씨;${d.팀 || d.본부 || ''}`,
       `TITLE:${d.직함 || ''}`,
       d.모바일 ? `TEL;TYPE=CELL:${d.모바일}` : "",
+      d.직통번호 ? `TEL;TYPE=WORK:${d.직통번호}` : "",
       d.이메일 ? `EMAIL:${d.이메일}` : "",
+      "URL:https://www.toup.net",
       "END:VCARD"
     ].filter(Boolean).join("\r\n");
   }
@@ -305,6 +328,7 @@
     document.getElementById('title').textContent = d.직함 || '-';
     document.getElementById('bio').textContent = d.소개문구 || '소개 문구가 아직 등록되지 않았습니다.';
     document.getElementById('phoneText').textContent = d.모바일 || '-';
+    document.getElementById('directPhoneText').textContent = d.직통번호 || '-';
     document.getElementById('emailText').textContent = d.이메일 || '-';
     document.getElementById('orgText').textContent = `미래아이엔씨 · ${d.팀 || d.본부 || '-'}`;
 
