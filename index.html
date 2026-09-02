@@ -247,12 +247,14 @@
     <div class="contact-row"><span class="label">직통번호</span><span class="value" id="directPhoneText">-</span></div>
     <div class="contact-row"><span class="label">이메일</span><span class="value" id="emailText">-</span></div>
     <div class="contact-row"><span class="label">소속</span><span class="value" id="orgText">-</span></div>
+    <div class="contact-row" id="igRow" style="display:none;"><span class="label">인스타그램</span><span class="value" id="igText"></span></div>
+    <div class="contact-row" id="blogRow" style="display:none;"><span class="label">블로그</span><span class="value" id="blogText"></span></div>
   </div>
 
   <div class="section">
     <h2>회사</h2>
-    <div class="contact-row stacked"><span class="label">서울</span><span class="value">서울특별시 금천구 가산디지털2로 144 현대테라타워 13층</span></div>
-    <div class="contact-row stacked"><span class="label">부산</span><span class="value">부산광역시 연제구 중앙대로 1217 국제타워 15층</span></div>
+    <div class="contact-row"><span class="label">서울</span><span class="value"><a href="https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EA%B8%88%EC%B2%9C%EA%B5%AC%20%EA%B0%80%EC%82%B0%EB%94%94%EC%A7%80%ED%84%B82%EB%A1%9C%20144%20%ED%98%84%EB%8C%80%ED%85%8C%EB%9D%BC%ED%83%80%EC%9B%8C" target="_blank" style="color:var(--ink);">지도보기</a></span></div>
+    <div class="contact-row"><span class="label">부산</span><span class="value"><a href="https://map.naver.com/p/search/%EB%B6%80%EC%82%B0%EA%B4%91%EC%97%AD%EC%8B%9C%20%EC%97%B0%EC%A0%9C%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%8C%80%EB%A1%9C%201217%20%EA%B5%AD%EC%A0%9C%ED%83%80%EC%9B%8C" target="_blank" style="color:var(--ink);">지도보기</a></span></div>
     <div class="contact-row"><span class="label">홈페이지</span><span class="value"><a href="https://www.toup.net" target="_blank" style="color:var(--ink);">www.toup.net</a></span></div>
   </div>
 
@@ -331,6 +333,15 @@
     document.getElementById('directPhoneText').textContent = d.직통번호 || '-';
     document.getElementById('emailText').textContent = d.이메일 || '-';
     document.getElementById('orgText').textContent = `미래아이엔씨 · ${d.팀 || d.본부 || '-'}`;
+
+    if (d.인스타그램) {
+      document.getElementById('igRow').style.display = 'flex';
+      document.getElementById('igText').innerHTML = `<a href="${d.인스타그램}" target="_blank" style="color:var(--ink);">바로가기</a>`;
+    }
+    if (d.블로그) {
+      document.getElementById('blogRow').style.display = 'flex';
+      document.getElementById('blogText').innerHTML = `<a href="${d.블로그}" target="_blank" style="color:var(--ink);">바로가기</a>`;
+    }
 
     document.getElementById('callBtn').href = d.모바일 ? `tel:${d.모바일.replace(/-/g,'')}` : '#';
     document.getElementById('mailBtn').href = d.이메일 ? `mailto:${d.이메일}` : '#';
