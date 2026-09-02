@@ -264,6 +264,7 @@
     팀: "BM3본부",
     직함: "본부장",
     전화: "010-9633-9496",
+    모바일: "010-9633-9496",
     이메일: "splendid@toup.net",
     소개문구: "BM3본부를 총괄하며 광고주 사업 전략과 팀 운영을 담당하고 있습니다.",
     태그: "네이버 검색광고, 쇼핑광고 운영, BM3본부 총괄",
@@ -283,9 +284,9 @@
       "BEGIN:VCARD",
       "VERSION:3.0",
       `FN:${d.이름}`,
-      `ORG:미래아이엔씨;${d.팀 || ''}`,
+      `ORG:미래아이엔씨;${d.팀 || d.본부 || ''}`,
       `TITLE:${d.직함 || ''}`,
-      d.전화 ? `TEL;TYPE=CELL:${d.전화}` : "",
+      d.모바일 ? `TEL;TYPE=CELL:${d.모바일}` : "",
       d.이메일 ? `EMAIL:${d.이메일}` : "",
       "END:VCARD"
     ].filter(Boolean).join("\r\n");
@@ -300,14 +301,14 @@
       document.getElementById('avatar').innerHTML = `<img src="${d.프로필사진URL}" alt="${d.이름}">`;
     }
     document.getElementById('name').textContent = d.이름 || '-';
-    document.getElementById('team').textContent = d.팀 || '-';
+    document.getElementById('team').textContent = d.팀 || d.본부 || '-';
     document.getElementById('title').textContent = d.직함 || '-';
     document.getElementById('bio').textContent = d.소개문구 || '소개 문구가 아직 등록되지 않았습니다.';
-    document.getElementById('phoneText').textContent = d.전화 || '-';
+    document.getElementById('phoneText').textContent = d.모바일 || '-';
     document.getElementById('emailText').textContent = d.이메일 || '-';
-    document.getElementById('orgText').textContent = `미래아이엔씨 · ${d.팀 || '-'}`;
+    document.getElementById('orgText').textContent = `미래아이엔씨 · ${d.팀 || d.본부 || '-'}`;
 
-    document.getElementById('callBtn').href = d.전화 ? `tel:${d.전화.replace(/-/g,'')}` : '#';
+    document.getElementById('callBtn').href = d.모바일 ? `tel:${d.모바일.replace(/-/g,'')}` : '#';
     document.getElementById('mailBtn').href = d.이메일 ? `mailto:${d.이메일}` : '#';
 
     document.getElementById('saveBtn').addEventListener('click', function(e){
@@ -334,7 +335,7 @@
         objectType: 'feed',
         content: {
           title: d.이름,
-          description: `${d.팀 || ''} ${d.직함 || ''}`.trim(),
+          description: `${d.팀 || d.본부 || ''} ${d.직함 || ''}`.trim(),
           imageUrl: d.프로필사진URL || DEFAULT_SHARE_IMAGE,
           link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
         },
