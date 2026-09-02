@@ -339,7 +339,7 @@
           link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
         },
         itemContent: tags.length ? {
-          items: tags.slice(0, 5).map(t => ({ item: t }))
+          items: tags.slice(0, 5).map(t => ({ item: t, itemOp: '' }))
         } : undefined,
         buttons: [
           { title: '명함 확인', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }
