@@ -307,7 +307,7 @@
       "BEGIN:VCARD",
       "VERSION:3.0",
       `FN:${d.이름}`,
-      `ORG:미래아이엔씨;${d.팀 || d.본부 || ''}`,
+      `ORG:미래아이엔씨;${orgLabel(d)}`,
       `TITLE:${d.직함 || ''}`,
       d.모바일 ? `TEL;TYPE=CELL:${d.모바일}` : "",
       d.직통번호 ? `TEL;TYPE=WORK:${d.직통번호}` : "",
@@ -315,6 +315,12 @@
       "URL:https://www.toup.net",
       "END:VCARD"
     ].filter(Boolean).join("\r\n");
+  }
+
+  function orgLabel(d){
+    let bu = d.본부 || '';
+    if (bu && !bu.includes('본부')) bu += '본부';
+    return [bu, d.팀].filter(Boolean).join(' ');
   }
 
   function render(d){
@@ -326,13 +332,13 @@
       document.getElementById('avatar').innerHTML = `<img src="${d.프로필사진URL}" alt="${d.이름}">`;
     }
     document.getElementById('name').textContent = d.이름 || '-';
-    document.getElementById('team').textContent = d.팀 || d.본부 || '-';
+    document.getElementById('team').textContent = orgLabel(d) || '-';
     document.getElementById('title').textContent = d.직함 || '-';
     document.getElementById('bio').textContent = d.소개문구 || '소개 문구가 아직 등록되지 않았습니다.';
     document.getElementById('phoneText').textContent = d.모바일 || '-';
     document.getElementById('directPhoneText').textContent = d.직통번호 || '-';
     document.getElementById('emailText').textContent = d.이메일 || '-';
-    document.getElementById('orgText').textContent = `미래아이엔씨 · ${d.팀 || d.본부 || '-'}`;
+    document.getElementById('orgText').textContent = `미래아이엔씨 · ${orgLabel(d) || '-'}`;
 
     if (d.인스타그램) {
       document.getElementById('igRow').style.display = 'flex';
@@ -369,7 +375,7 @@
         objectType: 'feed',
         content: {
           title: d.이름,
-          description: `미래아이엔씨 · ${d.팀 || d.본부 || ''} ${d.직함 || ''}`.trim(),
+          description: `미래아이엔씨 · ${orgLabel(d)} ${d.직함 || ''}`.trim(),
           imageUrl: d.프로필사진URL || DEFAULT_SHARE_IMAGE,
           link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
         },
