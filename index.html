@@ -239,6 +239,7 @@
   <div class="section">
     <h2>소개</h2>
     <p class="bio" id="bio">-</p>
+    <a href="#" id="portfolioLink" target="_blank" rel="noopener" style="display:none;margin-top:10px;font-size:13.5px;color:var(--ink);font-weight:500;text-decoration:none;">📁 포트폴리오</a>
   </div>
 
   <div class="section">
@@ -335,6 +336,11 @@
     document.getElementById('team').textContent = orgLabel(d) || '-';
     document.getElementById('title').textContent = d.직함 || '-';
     document.getElementById('bio').textContent = d.소개문구 || '소개 문구가 아직 등록되지 않았습니다.';
+    if (d.포트폴리오URL) {
+      const portfolioLink = document.getElementById('portfolioLink');
+      portfolioLink.href = d.포트폴리오URL;
+      portfolioLink.style.display = 'inline-block';
+    }
     document.getElementById('phoneText').textContent = d.모바일 || '-';
     document.getElementById('directPhoneText').textContent = d.직통번호 || '-';
     document.getElementById('emailText').textContent = d.이메일 || '-';
