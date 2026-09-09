@@ -446,7 +446,7 @@
       // ---- 프로필사진 버전: 히어로(사진+플로팅 카드) 표시, 기본 identity는 숨김 ----
       document.getElementById('identity').style.display = 'none';
       document.getElementById('heroWrap').style.display = 'block';
-      document.getElementById('heroPhoto').src = d.히어로사진URL || d.프로필사진URL || '';
+      document.getElementById('heroPhoto').src = d.히어로사진URL || '';
       document.getElementById('heroPhoto').alt = d.이름 || '';
       document.getElementById('heroName').textContent = d.이름 || '-';
       document.getElementById('heroTeam').textContent = orgLabel(d) || '-';
