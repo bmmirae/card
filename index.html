@@ -440,7 +440,7 @@
       // ---- 프로필사진 버전: 히어로(사진+플로팅 카드) 표시, 기본 identity는 숨김 ----
       document.getElementById('identity').style.display = 'none';
       document.getElementById('heroWrap').style.display = 'block';
-      document.getElementById('heroPhoto').src = d.프로필사진URL || '';
+      document.getElementById('heroPhoto').src = d.히어로사진URL || d.프로필사진URL || '';
       document.getElementById('heroPhoto').alt = d.이름 || '';
       document.getElementById('heroName').textContent = d.이름 || '-';
       document.getElementById('heroTeam').textContent = orgLabel(d) || '-';
@@ -523,15 +523,18 @@
         return;
       }
       const shareUrl = window.location.href;
+      // [v2] 이름+직함을 한 줄로 합쳐서 표기(동일 크기), 프로필사진 버전은 세로형 히어로사진을 카톡공유 사진으로 사용
+      const nameWithTitle = (d.이름 || '') + (d.직함 ? (' ' + d.직함) : '');
+      const sharePhoto = (d.카드타입 === '사진' && d.히어로사진URL) ? d.히어로사진URL : (d.프로필사진URL || DEFAULT_SHARE_IMAGE);
 
       Kakao.Share.sendCustom({
         templateId: 136952,
         templateArgs: {
-          name: d.이름 || '',
-          title: d.직함 || '',
+          name: nameWithTitle || '',
+          title: '',
           org: orgLabel(d) || '',
           bio: d.소개문구 || '',
-          photo: d.프로필사진URL || DEFAULT_SHARE_IMAGE,
+          photo: sharePhoto,
           link: shareUrl
         }
       });
