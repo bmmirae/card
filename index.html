@@ -59,13 +59,25 @@
 
   /* ---- Identity ---- */
   .top-panel{
-    background:linear-gradient(180deg,#fff 0%,#EFEFEF 28%,#FBFBFB 80%,#fff 100%);
+    margin:8px 16px 4px;
+    background:#F0F0F0;
+    border:1px solid #DCDCDC;
+    border-radius:16px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.08);
+    overflow:hidden;
+  }
+  .top-panel.flat{
+    margin:0;
+    background:none;
+    border:none;
+    border-radius:0;
+    box-shadow:none;
   }
   .identity{
     display:flex;
     align-items:center;
     gap:16px;
-    padding:18px 28px 24px;
+    padding:16px 12px 12px;
   }
   .avatar{
     flex-shrink:0;
@@ -100,6 +112,9 @@
   .actions{
     display:flex;
     border-top:1px solid var(--line);
+  }
+  .top-panel:not(.flat) .actions{
+    border-top-color:#D8D8D8;
   }
   .actions a{
     flex:1;
@@ -448,7 +463,7 @@
 
     if (isPhotoType) {
       // ---- 프로필사진 버전: 히어로(사진+플로팅 카드) 표시, 기본 identity는 숨김 ----
-      document.getElementById('topPanel').style.background = 'none'; // 액션버튼은 그대로 유지되지만 그라데이션은 히어로에서 제외
+      document.getElementById('topPanel').classList.add('flat'); // 히어로 모드에서는 카드 프레임(테두리/그림자) 없이 액션버튼만 플레인하게
       document.getElementById('identity').style.display = 'none';
       document.getElementById('heroWrap').style.display = 'block';
       document.getElementById('heroPhoto').src = d.히어로사진URL || '';
@@ -483,7 +498,7 @@
       // 소개 섹션의 포트폴리오 버튼은 히어로 쪽에 이미 있으므로 중복 표시하지 않음 (기본값 숨김 유지)
     } else {
       // ---- 텍스트 버전: 기존 동작 그대로 ----
-      document.getElementById('topPanel').style.background = '';
+      document.getElementById('topPanel').classList.remove('flat');
       if (d.포트폴리오URL || d.포트폴리오2URL) {
         document.getElementById('portfolioDivider').style.display = 'block';
       }
