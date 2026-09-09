@@ -524,9 +524,13 @@
         return;
       }
       const shareUrl = window.location.href;
-      // [v2] 이름+직함을 한 줄로 합쳐서 표기(동일 크기), 프로필사진 버전은 세로형 히어로사진을 카톡공유 사진으로 사용
+      // [v3] 이름+직함을 한 줄로 합쳐서 표기(동일 크기), 프로필사진 버전은 세로형 히어로사진을 카톡공유 사진으로 사용
       const nameWithTitle = (d.이름 || '') + (d.직함 ? (' ' + d.직함) : '');
-      const sharePhoto = (d.카드타입 === '사진' && d.히어로사진URL) ? d.히어로사진URL : (d.프로필사진URL || DEFAULT_SHARE_IMAGE);
+      const rawPhoto = (d.카드타입 === '사진' && d.히어로사진URL) ? d.히어로사진URL : d.프로필사진URL;
+      // 원본 사진을 크롭 프록시(/crop, gravity=top)에 통과시켜 카톡 자체 크롭으로 머리가 잘리는 문제 방지
+      const sharePhoto = rawPhoto
+        ? ('https://card.bm1mirae.workers.dev/crop?src=' + encodeURIComponent(rawPhoto) + '&w=800&h=800&g=top')
+        : DEFAULT_SHARE_IMAGE;
 
       Kakao.Share.sendCustom({
         templateId: 136952,
