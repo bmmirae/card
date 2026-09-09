@@ -198,6 +198,74 @@
     color:var(--slate);
     font-size:14px;
   }
+
+  /* ---- 프로필사진 버전 히어로 ---- */
+  .hero-wrap{ position:relative; }
+  .hero-photo{
+    width:100%;
+    aspect-ratio:3/4;
+    object-fit:cover;
+    display:block;
+    background:#DADADA;
+  }
+  .hero-overlay{
+    position:relative;
+    margin:-80px 20px 0;
+    background:rgba(14,14,20,0.86);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-radius:18px;
+    padding:20px 22px 22px;
+    color:#fff;
+  }
+  .hero-name{
+    font-family:'Noto Serif KR', serif;
+    font-weight:700;
+    font-size:22px;
+    margin:0 0 6px;
+    color:#fff;
+    letter-spacing:0.01em;
+  }
+  .hero-title-line{
+    font-size:13px;
+    color:rgba(255,255,255,0.72);
+  }
+  .hero-title-line .team{ color:#fff; font-weight:500; }
+  .hero-tags{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-top:12px;
+  }
+  .hero-tag{
+    font-size:11px;
+    font-weight:500;
+    padding:4px 12px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.14);
+    border:1px solid rgba(255,255,255,0.28);
+    color:#fff;
+  }
+  .hero-portfolio-row{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .hero-portfolio-link{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    width:fit-content;
+    padding:7px 14px;
+    border-radius:16px;
+    background:rgba(255,255,255,0.16);
+    border:1px solid rgba(255,255,255,0.34);
+    color:#fff;
+    font-size:12.5px;
+    font-weight:500;
+    text-decoration:none;
+  }
+  .hero-portfolio-link svg{ stroke:#fff; }
 </style>
 </head>
 <body>
@@ -210,7 +278,27 @@
     <span class="brand-kr">(주)미래아이엔씨</span>
   </div>
 
-  <div class="identity">
+  <!-- 프로필사진 버전: 카드타입==='사진'일 때만 표시 -->
+  <div class="hero-wrap" id="heroWrap" style="display:none;">
+    <img class="hero-photo" id="heroPhoto" src="" alt="">
+    <div class="hero-overlay">
+      <h1 class="hero-name" id="heroName">-</h1>
+      <div class="hero-title-line"><span class="team" id="heroTeam">-</span> <span id="heroTitle">-</span></div>
+      <div class="hero-tags" id="heroTags" style="display:none;"></div>
+      <div class="hero-portfolio-row" id="heroPortfolioRow">
+        <a href="#" id="heroPortfolioLink1" target="_blank" rel="noopener" class="hero-portfolio-link" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" style="width:13px;height:13px;flex-shrink:0;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span id="heroPortfolioText1">포트폴리오 바로가기</span>
+        </a>
+        <a href="#" id="heroPortfolioLink2" target="_blank" rel="noopener" class="hero-portfolio-link" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" style="width:13px;height:13px;flex-shrink:0;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span id="heroPortfolioText2">포트폴리오 바로가기</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="identity" id="identity">
     <div class="avatar" id="avatar">?</div>
     <div class="id-text">
       <h1 class="name" id="name">-</h1>
@@ -337,6 +425,8 @@
     document.getElementById('loading').style.display = 'none';
     document.getElementById('card').style.display = 'flex';
 
+    const isPhotoType = d.카드타입 === '사진';
+
     document.getElementById('avatar').textContent = (d.이름 || '?').charAt(0);
     if (d.프로필사진URL) {
       document.getElementById('avatar').innerHTML = `<img src="${d.프로필사진URL}" alt="${d.이름}">`;
@@ -345,20 +435,58 @@
     document.getElementById('team').textContent = orgLabel(d) || '-';
     document.getElementById('title').textContent = d.직함 || '-';
     document.getElementById('bio').textContent = d.소개문구 || '소개 문구가 아직 등록되지 않았습니다.';
-    if (d.포트폴리오URL || d.포트폴리오2URL) {
-      document.getElementById('portfolioDivider').style.display = 'block';
-    }
-    if (d.포트폴리오URL) {
-      const portfolioLink1 = document.getElementById('portfolioLink1');
-      portfolioLink1.href = d.포트폴리오URL;
-      document.getElementById('portfolioText1').textContent = d.포트폴리오제목 || '포트폴리오 바로가기';
-      portfolioLink1.style.display = 'flex';
-    }
-    if (d.포트폴리오2URL) {
-      const portfolioLink2 = document.getElementById('portfolioLink2');
-      portfolioLink2.href = d.포트폴리오2URL;
-      document.getElementById('portfolioText2').textContent = d.포트폴리오2제목 || '포트폴리오 바로가기';
-      portfolioLink2.style.display = 'flex';
+
+    if (isPhotoType) {
+      // ---- 프로필사진 버전: 히어로(사진+플로팅 카드) 표시, 기본 identity는 숨김 ----
+      document.getElementById('identity').style.display = 'none';
+      document.getElementById('heroWrap').style.display = 'block';
+      document.getElementById('heroPhoto').src = d.프로필사진URL || '';
+      document.getElementById('heroPhoto').alt = d.이름 || '';
+      document.getElementById('heroName').textContent = d.이름 || '-';
+      document.getElementById('heroTeam').textContent = orgLabel(d) || '-';
+      document.getElementById('heroTitle').textContent = d.직함 || '-';
+
+      const tagList = (d.태그 || '').split(',').map(t => t.trim()).filter(Boolean).slice(0, 2);
+      const heroTags = document.getElementById('heroTags');
+      if (tagList.length) {
+        heroTags.innerHTML = tagList.map(t => `<span class="hero-tag">${t}</span>`).join('');
+        heroTags.style.display = 'flex';
+      }
+
+      let hasHeroPortfolio = false;
+      if (d.포트폴리오URL) {
+        const link1 = document.getElementById('heroPortfolioLink1');
+        link1.href = d.포트폴리오URL;
+        document.getElementById('heroPortfolioText1').textContent = d.포트폴리오제목 || '포트폴리오 바로가기';
+        link1.style.display = 'flex';
+        hasHeroPortfolio = true;
+      }
+      if (d.포트폴리오2URL) {
+        const link2 = document.getElementById('heroPortfolioLink2');
+        link2.href = d.포트폴리오2URL;
+        document.getElementById('heroPortfolioText2').textContent = d.포트폴리오2제목 || '포트폴리오 바로가기';
+        link2.style.display = 'flex';
+        hasHeroPortfolio = true;
+      }
+      document.getElementById('heroPortfolioRow').style.marginTop = hasHeroPortfolio ? '14px' : '0';
+      // 소개 섹션의 포트폴리오 버튼은 히어로 쪽에 이미 있으므로 중복 표시하지 않음 (기본값 숨김 유지)
+    } else {
+      // ---- 텍스트 버전: 기존 동작 그대로 ----
+      if (d.포트폴리오URL || d.포트폴리오2URL) {
+        document.getElementById('portfolioDivider').style.display = 'block';
+      }
+      if (d.포트폴리오URL) {
+        const portfolioLink1 = document.getElementById('portfolioLink1');
+        portfolioLink1.href = d.포트폴리오URL;
+        document.getElementById('portfolioText1').textContent = d.포트폴리오제목 || '포트폴리오 바로가기';
+        portfolioLink1.style.display = 'flex';
+      }
+      if (d.포트폴리오2URL) {
+        const portfolioLink2 = document.getElementById('portfolioLink2');
+        portfolioLink2.href = d.포트폴리오2URL;
+        document.getElementById('portfolioText2').textContent = d.포트폴리오2제목 || '포트폴리오 바로가기';
+        portfolioLink2.style.display = 'flex';
+      }
     }
     document.getElementById('phoneText').textContent = d.모바일 || '-';
     document.getElementById('directPhoneText').textContent = d.직통번호 || '-';
