@@ -237,9 +237,23 @@
     backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
     border-radius:18px;
-    padding:20px 22px 22px;
+    padding:20px 54px 22px 22px;
     color:#fff;
     animation:heroOverlayIn 0.6s ease-out;
+  }
+  .hero-logo-mark{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#fff;
+    padding:4px;
+    box-sizing:border-box;
+    object-fit:contain;
+    box-shadow:0 2px 10px rgba(0,0,0,0.3);
   }
   .hero-name{
     font-family:'Noto Serif KR', serif;
@@ -305,6 +319,7 @@
   <div class="hero-wrap" id="heroWrap" style="display:none;">
     <img class="hero-photo" id="heroPhoto" src="" alt="">
     <div class="hero-overlay">
+      <img class="hero-logo-mark" src="assets/logo.png" alt="미래아이엔씨">
       <h1 class="hero-name" id="heroName">-</h1>
       <div class="hero-title-line"><span class="team" id="heroTeam">-</span> <span id="heroTitle">-</span></div>
       <div class="hero-tags" id="heroTags" style="display:none;"></div>
@@ -463,6 +478,7 @@
 
     if (isPhotoType) {
       // ---- 프로필사진 버전: 히어로(사진+플로팅 카드) 표시, 기본 identity는 숨김 ----
+      document.querySelector('.brand-row').style.display = 'none'; // 로고는 히어로 카드 안으로 이동, 상단 로고줄은 숨김
       document.getElementById('topPanel').classList.add('flat'); // 히어로 모드에서는 카드 프레임(테두리/그림자) 없이 액션버튼만 플레인하게
       document.getElementById('identity').style.display = 'none';
       document.getElementById('heroWrap').style.display = 'block';
@@ -498,6 +514,7 @@
       // 소개 섹션의 포트폴리오 버튼은 히어로 쪽에 이미 있으므로 중복 표시하지 않음 (기본값 숨김 유지)
     } else {
       // ---- 텍스트 버전: 기존 동작 그대로 ----
+      document.querySelector('.brand-row').style.display = 'flex';
       document.getElementById('topPanel').classList.remove('flat');
       if (d.포트폴리오URL || d.포트폴리오2URL) {
         document.getElementById('portfolioDivider').style.display = 'block';
