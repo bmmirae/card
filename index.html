@@ -493,7 +493,7 @@
       document.getElementById('heroTeam').textContent = orgLabel(d) || '-';
       document.getElementById('heroTitle').textContent = d.직함 || '-';
 
-      const tagList = (d.태그 || '').split(',').map(t => t.trim()).filter(Boolean).slice(0, 2);
+      const tagList = (d.태그 || '').split(',').map(t => t.trim()).filter(Boolean).slice(0, 3);
       const heroTags = document.getElementById('heroTags');
       if (tagList.length) {
         heroTags.innerHTML = tagList.map(t => `<span class="hero-tag">${t}</span>`).join('');
