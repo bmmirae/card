@@ -462,7 +462,8 @@
   function orgLabel(d){
     let bu = d.본부 || '';
     if (bu && !bu.includes('본부')) bu += '본부';
-    return [bu, d.팀].filter(Boolean).join(' ');
+    const team = (d.팀 || '').replace(/^BM\d-/, '');
+    return [bu, team].filter(Boolean).join(' ');
   }
 
   function render(d){
