@@ -117,6 +117,7 @@
     border-top-color:#D8D8D8;
   }
   .actions a{
+    position:relative;
     flex:1;
     padding:14px 4px;
     font-size:12px;
@@ -127,9 +128,17 @@
     gap:6px;
     text-decoration:none;
     text-align:center;
-    border-right:1px solid var(--line);
   }
-  .actions a:last-child{ border-right:none; }
+  .actions a:not(:last-child)::after{
+    content:'';
+    position:absolute;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:1px;
+    height:46%;
+    background:linear-gradient(180deg,transparent,var(--line) 50%,transparent);
+  }
   .actions svg{ width:19px; height:19px; stroke:var(--brand-blue); }
   .top-panel.flat .actions a{ padding:10px 4px; } /* 히어로(프로필사진) 모드에서만 세로여백 살짝 축소 — 접힘선 확보용 */
   .actions .primary{ font-weight:600; }
@@ -233,12 +242,12 @@
   }
   .hero-overlay{
     position:relative;
-    margin:-114px 20px 0;
+    margin:-94px 20px 0;
     background:rgba(14,14,20,0.5);
     backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
     border-radius:18px;
-    padding:16px 138px 18px 22px;
+    padding:16px 112px 18px 22px;
     color:#fff;
     animation:heroOverlayIn 0.6s ease-out;
   }
@@ -248,7 +257,7 @@
     top:50%;
     transform:translateY(-50%);
     width:auto;
-    height:48px;
+    height:36px;
   }
   .hero-name{
     font-family:'Noto Serif KR', serif;
